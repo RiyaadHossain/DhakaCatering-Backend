@@ -7,6 +7,7 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         trim: true,
+        unique: true,
         lowercase: true,
         required: [true, "Email address is required"],
         validate: [validator.isEmail, "Please Provide a valid Email"]
@@ -23,6 +24,16 @@ const userSchema = mongoose.Schema({
                 minSymbols: 1,
             }),
             message: "Password is not strong enough.",
+        }
+    },
+    confirmPassword: {
+        type: String,
+        required: [true, "Confirm password is required"],
+        validate: {
+            validator: function (value) {
+                return this.password === value
+            },
+            message: "Password didn't match"
         }
     },
     name: {
@@ -65,6 +76,13 @@ const userSchema = mongoose.Schema({
     },
 }, {
     timestamps: true
+})
+
+userSchema.pre('save', function async(next) {
+    const hashedPass = bcrypt.hashSync(this.password, 10)
+    this.password = hashedPass
+    this.confirmPassword = undefined
+    next()
 })
 
 const User = mongoose.model("User", userSchema)

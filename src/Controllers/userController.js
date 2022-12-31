@@ -1,4 +1,5 @@
 const User = require('../Models/User');
+const { generateToken } = require('../Utils/token');
 
 // 1. Sign Up________________________________
 exports.signUp = async (req, res) => {
@@ -21,14 +22,42 @@ exports.signUp = async (req, res) => {
 
 // 1. Sign In________________________________
 exports.signIn = async (req, res) => {
+    const { email, password } = req.body
+
+    if (!email || !password) {
+        return res.status(401).json({
+            status: "fail",
+            error: "Please provide email and password",
+        });
+    }
+
     try {
+        const user = await User.findOne({ email })
+
+        if (!user) {
+            return res.status(401).json({
+                status: "fail",
+                error: "User didn't find",
+            });
+        }
+
+        if (user.status !== 'active') {
+            console.log(user.status);
+            return res.status(401).json({
+                status: "fail",
+                error: "User account isn't active. Please contact support.",
+            });
+        }
+
+        const token = generateToken(user)
 
         res.status(200).json({
             status: "success",
             messgae: "User Sign In successfully!",
-            data: user,
+            data: { token, user },
         });
     } catch (error) {
+        console.log(error);
         res.status(400).json({
             status: "fail",
             error: error.message,
