@@ -1,10 +1,29 @@
 const express = require('express');
+const colors = require('colors');
+const dotenv = require('dotenv');
+const cors = require('cors');
 const app = express();
+const PORT = process.env.PORT || 5000
+dotenv.config()
 
+// DB Connection
+require("./src/Config/DBConnect")
+
+// Middlewares
+app.use(express.json())
+app.use(cors())
+
+const userRoute = require("./src/Routes/userRoute")
+
+// Routes
+app.use("/api/user", userRoute)
+
+// Health Check
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
-app.listen(3000, () => {
-    console.log('Server listening on port 3000');
+// Listen to Server
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`.blue.bold);
 });
