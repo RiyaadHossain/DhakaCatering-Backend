@@ -20,7 +20,7 @@ exports.signUp = async (req, res) => {
     }
 }
 
-// 1. Sign In________________________________
+// 2. Sign In________________________________
 exports.signIn = async (req, res) => {
     const { email, password } = req.body
 
@@ -57,7 +57,28 @@ exports.signIn = async (req, res) => {
             data: { token, user },
         });
     } catch (error) {
-        console.log(error);
+        res.status(400).json({
+            status: "fail",
+            error: error.message,
+        });
+    }
+}
+
+// 3. Update Profile________________________________
+exports.updateProfile = async (req, res) => {
+    const id = req.user._id
+    const updatedData = req.body
+    const options = { new: true, runValidators: true }
+
+    try {
+        const data = await User.findByIdAndUpdate(id, updatedData, options)
+
+        res.status(200).json({
+            status: "success",
+            messgae: "User Updated successfully!",
+            data,
+        });
+    } catch (error) {
         res.status(400).json({
             status: "fail",
             error: error.message,
