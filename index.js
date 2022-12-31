@@ -14,9 +14,11 @@ app.use(express.json())
 app.use(cors())
 
 const userRoute = require("./src/Routes/userRoute")
+const foodRoute = require("./src/Routes/foodRoute")
 
 // Routes
 app.use("/api/user", userRoute)
+app.use("/api/user", foodRoute)
 
 // Health Check
 app.get('/', (req, res) => {

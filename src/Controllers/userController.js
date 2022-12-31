@@ -42,10 +42,17 @@ exports.signIn = async (req, res) => {
         }
 
         if (user.status !== 'active') {
-            console.log(user.status);
             return res.status(401).json({
                 status: "fail",
                 error: "User account isn't active. Please contact support.",
+            });
+        }
+
+        const comparePass = user.compareHash(password, user.password)
+        if (!comparePass) {
+            return res.status(401).json({
+                status: "fail",
+                error: "User credential is wrong.",
             });
         }
 

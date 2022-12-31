@@ -74,16 +74,21 @@ const userSchema = mongoose.Schema({
         default: "active",
         enum: ["active", "inactive", "blocked"],
     },
-}, {
-    timestamps: true
-})
+}, { timestamps: true })
 
+// Hash Password______________
 userSchema.pre('save', function async(next) {
     const hashedPass = bcrypt.hashSync(this.password, 10)
     this.password = hashedPass
     this.confirmPassword = undefined
     next()
 })
+
+// Compare hash Password_____________
+userSchema.methods.compareHash = (pass, hashedPass) => {
+    const isValidPassword = bcrypt.compareSync(pass, hashedPass)
+    return isValidPassword
+}
 
 const User = mongoose.model("User", userSchema)
 module.exports = User
