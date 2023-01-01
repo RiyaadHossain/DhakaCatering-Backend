@@ -15,10 +15,12 @@ app.use(cors())
 
 const userRoute = require("./src/Routes/userRoute")
 const foodRoute = require("./src/Routes/foodRoute")
+const reviewRoute = require("./src/Routes/reviewRoute")
 
 // Routes
-app.use("/api/user", userRoute)
-app.use("/api/user", foodRoute)
+app.use("/api/auth", userRoute)
+app.use("/api/food", foodRoute)
+app.use("/api/review", reviewRoute)
 
 // Health Check
 app.get('/', (req, res) => {

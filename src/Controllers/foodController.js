@@ -117,10 +117,9 @@ exports.bulkDeleteFood = async (req, res) => {
 
     try {
         const data = await Food.deleteMany({ _id: ids })
-        console.log(data) // "deletedCount" & "acknowledged"
 
-        if (!data.deletedCount) {
-            res.status(400).json({
+        if (!data.deletedCount) { // "deletedCount" & "acknowledged"
+            return res.status(400).json({
                 status: "fail",
                 error: "Couldn't delete Food Items",
             });
