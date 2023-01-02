@@ -16,11 +16,13 @@ app.use(cors())
 const userRoute = require("./src/Routes/userRoute")
 const foodRoute = require("./src/Routes/foodRoute")
 const reviewRoute = require("./src/Routes/reviewRoute")
+const wishListRoute = require("./src/Routes/wishListRoute")
 
 // Routes
 app.use("/api/auth", userRoute)
 app.use("/api/food", foodRoute)
 app.use("/api/review", reviewRoute)
+app.use("/api/wishList", wishListRoute)
 
 // Health Check
 app.get('/', (req, res) => {

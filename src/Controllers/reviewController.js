@@ -4,11 +4,11 @@ const Review = require("../Models/Review");
 exports.getReviews = async (req, res) => {
 
     try {
-        const data = await Review.find()
+        const reviews = await Review.find()
         res.status(200).json({
             status: "success",
             messgae: "Reviews data fetched successfully!",
-            data,
+            reviews,
         });
     } catch (error) {
         res.status(400).json({
@@ -23,11 +23,11 @@ exports.getReview = async (req, res) => {
     const { id } = req.params
 
     try {
-        const data = await Review.findById(id)
+        const review = await Review.findById(id)
         res.status(200).json({
             status: "success",
             messgae: "Review data fetched successfully!",
-            data,
+            review,
         });
     } catch (error) {
         res.status(400).json({
@@ -92,10 +92,17 @@ exports.deleteReview = async (req, res) => {
 
     try {
         const data = await Review.findByIdAndDelete(id)
+
+        if (data.deletedCount) {
+            return res.status(400).json({
+                status: "fail",
+                error: "Review Couldn't delete",
+            });
+        }
+
         res.status(200).json({
             status: "success",
             messgae: "Review deleted successfully!",
-            data,
         });
     } catch (error) {
         res.status(400).json({
@@ -111,10 +118,17 @@ exports.deleteReviews = async (req, res) => {
 
     try {
         const data = await Review.deleteMany({ _id: ids })
+
+        if (data.deletedCount) {
+            return res.status(400).json({
+                status: "fail",
+                error: "Review Couldn't delete",
+            });
+        }
+
         res.status(200).json({
             status: "success",
             messgae: "Multiple Review deleted successfully!",
-            data,
         });
     } catch (error) {
         res.status(400).json({

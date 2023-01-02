@@ -21,7 +21,7 @@ const reviewSchema = mongoose.Schema({
         required: [true, "Food item id is required"]
     },
 
-})
+}, { timestamps: true })
 
 const Review = mongoose.model("Review", reviewSchema)
 module.exports = Review
