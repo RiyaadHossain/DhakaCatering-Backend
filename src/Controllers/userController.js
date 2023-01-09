@@ -1,3 +1,4 @@
+const { authorization } = require('../Middlewares/authorization');
 const User = require('../Models/User');
 const { generateToken } = require('../Utils/token');
 
@@ -71,7 +72,38 @@ exports.signIn = async (req, res) => {
     }
 }
 
-// 3. Update Profile________________________________
+// 3. Initial LogIn________________________________
+exports.initialSignIn = async (req, res) => {
+    const { email, role } = req.user
+
+    // User Authorization conformation
+    authorization(role)
+
+    try {
+        const user = await User.findOne({ email })
+
+        if (!user) {
+            return res.status(401).json({
+                status: "fail",
+                error: "User didn't find",
+            });
+        }
+
+        res.status(200).json({
+            status: "success",
+            messgae: "User Sign In successfully!",
+            data: user
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: error.message,
+        });
+    }
+}
+
+// 4. Update Profile________________________________
 exports.updateProfile = async (req, res) => {
     const id = req.user._id
     const updatedData = req.body
