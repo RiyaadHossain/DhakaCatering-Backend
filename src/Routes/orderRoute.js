@@ -5,7 +5,7 @@ const { authorization } = require('../Middlewares/authorization');
 const { verifyToken } = require('../Middlewares/verifyToken');
 
 router.route("/:foodId")
-    .all(verifyToken, authorization('user admin'))
+    .all(verifyToken, authorization("Super Admin", "Admin", "User"))
     .get(orderController.getOrders)
     .post(orderController.addToOrder)
 

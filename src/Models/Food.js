@@ -28,11 +28,11 @@ const foodSchema = mongoose.Schema({
         },
         default: "active"
     },
-    imageURLs: [{
+    imgURL: {
         type: String,
         required: true,
         validate: [validator.isURL, "Please provide a valid url"]
-    }],
+    },
     category: {
         type: String,
         enum: {

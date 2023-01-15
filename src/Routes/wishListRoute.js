@@ -5,7 +5,7 @@ const { authorization } = require('../Middlewares/authorization');
 const { verifyToken } = require('../Middlewares/verifyToken');
 
 router.route("/:foodId")
-    .all(verifyToken, authorization('user'))
+    .all(verifyToken, authorization('User'))
     .get(wishListController.getWishList)
     .post(wishListController.addToWishList)
     .delete(wishListController.removeFromWishList)

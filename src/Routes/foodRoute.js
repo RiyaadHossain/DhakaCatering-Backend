@@ -6,12 +6,12 @@ const { authorization } = require('../Middlewares/authorization');
 
 router.route("/")
     .get(foodController.getFoods)
-    .post(verifyToken, authorization("admin"), foodController.createFood)
-    .delete(verifyToken, authorization("admin"), foodController.bulkDeleteFood)
+    .post(verifyToken, authorization("Super Admin", "Admin"), foodController.createFood)
+    .delete(verifyToken, authorization("Super Admin", "Admin"), foodController.bulkDeleteFood)
 
 router.route("/:id")
     .get(foodController.getFood)
-    .patch(verifyToken, authorization("admin"), foodController.updateFood)
-    .delete(verifyToken, authorization("admin"), foodController.deleteFood)
+    .patch(verifyToken, authorization("Super Admin", "Admin"), foodController.updateFood)
+    .delete(verifyToken, authorization("Super Admin", "Admin"), foodController.deleteFood)
 
 module.exports = router
