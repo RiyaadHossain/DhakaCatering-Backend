@@ -23,21 +23,20 @@ const foodSchema = mongoose.Schema({
     status: {
         type: String,
         enum: {
-            values: ["active", "inactive"],
-            message: "Status can be only active/inactive"
+            values: ["active", "unavailable"],
+            message: "Status can be only active/unavailable"
         },
         default: "active"
     },
-    imgURL: {
-        type: String,
-        required: true,
-        validate: [validator.isURL, "Please provide a valid url"]
+    image: {
+        title: String,
+        url: String
     },
     category: {
         type: String,
         enum: {
-            values: ["Breakfast", "Lunch", "Dinner"],
-            message: "Only Breakfast/Lunch/Dinner value is accpeted"
+            values: ["Breakfast", "Lunch", "Dinner", "All"],
+            message: "Only All/Breakfast/Lunch/Dinner value is accpeted"
         },
         required: [true, "Food Category is required"],
     },
