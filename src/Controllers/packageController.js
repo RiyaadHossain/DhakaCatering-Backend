@@ -1,13 +1,12 @@
-const Food = require("../Models/Food");
+const Package = require("../Models/Package");
 
-// 1. Get Foods__________________________
-exports.getFoods = async (req, res) => {
+// 1. Get Packages__________________________
+exports.getPackages = async (req, res) => {
     try {
-        const data = await Food.find()
+        const data = await Package.find()
 
         res.status(200).json({
             status: "success",
-            messgae: "User Sign Up successfully!",
             data,
         });
     } catch (error) {
@@ -18,16 +17,15 @@ exports.getFoods = async (req, res) => {
     }
 }
 
-// 2. Get Food__________________________
-exports.getFood = async (req, res) => {
+// 2. Get Package__________________________
+exports.getPackage = async (req, res) => {
     const id = req.params.id
 
     try {
-        const data = await Food.findById(id)
+        const data = await Package.findById(id)
 
         res.status(200).json({
             status: "success",
-            messgae: "Specific Food Item Data",
             data,
         });
     } catch (error) {
@@ -38,14 +36,14 @@ exports.getFood = async (req, res) => {
     }
 }
 
-// 3. Create Food__________________________
-exports.createFood = async (req, res) => {
+// 3. Create Package__________________________
+exports.createPackage = async (req, res) => {
     try {
-        const data = await Food.create(req.body)
+        const data = await Package.create(req.body)
 
         res.status(201).json({
             status: "success",
-            messgae: "Food Item created successfully!",
+            messgae: "Package Item created successfully!",
             data,
         });
     } catch (error) {
@@ -56,25 +54,25 @@ exports.createFood = async (req, res) => {
     }
 }
 
-// 4. Update Food__________________________
-exports.updateFood = async (req, res) => {
+// 4. Update Package__________________________
+exports.updatePackage = async (req, res) => {
     const id = req.params.id
     const updatedData = req.body
     const options = { new: true, runValidators: true }
 
     try {
-        const result = await Food.findByIdAndUpdate(id, updatedData, options)
+        const result = await Package.findByIdAndUpdate(id, updatedData, options)
 
         if (!result) {
             return res.status(400).json({
                 status: "fail",
-                error: "Food couldn't update",
+                error: "Package couldn't update",
             });
         }
 
         res.status(200).json({
             status: "success",
-            messgae: "Food item data updated successfully!",
+            messgae: "Package item data updated successfully!",
             result,
         });
     } catch (error) {
@@ -85,23 +83,23 @@ exports.updateFood = async (req, res) => {
     }
 }
 
-// 5. Delete Food__________________________
-exports.deleteFood = async (req, res) => {
+// 5. Delete Package__________________________
+exports.deletePackage = async (req, res) => {
     const id = req.params.id
 
     try {
-        const result = await Food.findByIdAndDelete(id)
+        const result = await Package.findByIdAndDelete(id)
 
         if (!result) {
             return res.status(400).json({
                 status: "fail",
-                error: "Food couldn't delete",
+                error: "Package couldn't delete",
             });
         }
 
         res.status(200).json({
             status: "success",
-            messgae: "Food deleted Successfully",
+            messgae: "Package deleted Successfully",
         });
     } catch (error) {
         res.status(400).json({
@@ -111,23 +109,23 @@ exports.deleteFood = async (req, res) => {
     }
 }
 
-// 6. Bulk Delete Food__________________________
-exports.bulkDeleteFood = async (req, res) => {
+// 6. Bulk Delete Package__________________________
+exports.bulkDeletePackage = async (req, res) => {
     const { ids } = req.body
 
     try {
-        const data = await Food.deleteMany({ _id: ids })
+        const data = await Package.deleteMany({ _id: ids })
 
         if (!data.deletedCount) { // "deletedCount" & "acknowledged"
             return res.status(400).json({
                 status: "fail",
-                error: "Couldn't delete Food Items",
+                error: "Couldn't delete Package Items",
             });
         }
 
         res.status(200).json({
             status: "success",
-            messgae: "Multiple food item deleted successfully!",
+            messgae: "Multiple Package item deleted successfully!",
         });
     } catch (error) {
         res.status(400).json({

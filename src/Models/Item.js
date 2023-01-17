@@ -2,23 +2,23 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const { ObjectId } = mongoose.Schema.Types
 
-const foodSchema = mongoose.Schema({
+const itemSchema = mongoose.Schema({
     name: {
         type: String,
         trim: true,
-        uniquie: [true, "Food title must be unique"],
-        required: [true, "Food Name is required"]
+        uniquie: [true, "Item title must be unique"],
+        required: [true, "Item Name is required"]
     },
     price: {
         type: Number,
         min: [0, "Price can't be negative"],
-        required: [true, "Food Price is required"]
+        required: [true, "Item Price is required"]
     },
     description: {
         type: String,
         trim: true,
         maxLength: [500, "Description is too long"],
-        required: [true, "Food Description is required"]
+        required: [true, "Item Description is required"]
     },
     status: {
         type: String,
@@ -38,7 +38,7 @@ const foodSchema = mongoose.Schema({
             values: ["Breakfast", "Lunch", "Dinner", "All"],
             message: "Only All/Breakfast/Lunch/Dinner value is accpeted"
         },
-        required: [true, "Food Category is required"],
+        required: [true, "Item Category is required"],
     },
     reviews: [{
         userId: ObjectId,
@@ -55,5 +55,5 @@ const foodSchema = mongoose.Schema({
     }
 }, { timestamps: true })
 
-const Food = mongoose.model("Food", foodSchema)
-module.exports = Food
+const item = mongoose.model("Item", itemSchema)
+module.exports = item
