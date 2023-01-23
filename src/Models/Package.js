@@ -9,12 +9,13 @@ const packageSchema = mongoose.Schema({
         uniquie: [true, "Package title must be unique"],
         required: [true, "Package Name is required"]
     },
-    item: [{
-        id: {
+    allItems: {
+        items: [{
             type: ObjectId,
             ref: 'Item'
-        }
-    }],
+        }],
+        totalPrice: Number
+    },
     price: {
         type: Number,
         min: [0, "Price can't be negative"],
@@ -23,8 +24,16 @@ const packageSchema = mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        maxLength: [500, "Description is too long"],
+        maxLength: [650, "Description is too long"],
         required: [true, "Package Description is required"]
+    },
+    category: {
+        type: String,
+        enum: {
+            values: ["Bronze", "Silver", "Golden", "Dimond"],
+            message: "Only Bronze/Silver/Golden/Dimond value is accpeted"
+        },
+        required: [true, "Item Category is required"],
     },
     status: {
         type: String,

@@ -22,7 +22,7 @@ exports.getPackage = async (req, res) => {
     const id = req.params.id
 
     try {
-        const data = await Package.findById(id)
+        const data = await Package.findById(id).populate('allItems.items')
 
         res.status(200).json({
             status: "success",
@@ -62,7 +62,6 @@ exports.updatePackage = async (req, res) => {
 
     try {
         const result = await Package.findByIdAndUpdate(id, updatedData, options)
-
         if (!result) {
             return res.status(400).json({
                 status: "fail",

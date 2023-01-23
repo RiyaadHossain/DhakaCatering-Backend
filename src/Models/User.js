@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema({
             message: "Password didn't match"
         }
     },
-    name: {
+    fullName: {
         type: String,
         required: [true, "Please enter your name"],
         trim: true,
@@ -49,14 +49,14 @@ const userSchema = mongoose.Schema({
             values: ["User", "Admin", "Super Admin"],
             message: "{VALUE} is not accepted for user role"
         },
-        default: "user",
+        default: "User",
     },
     address: {
         type: String,
         trim: true,
         maxLength: [200, "Address is too long"]
     },
-    imageURL: {
+    imageUrl: {
         type: String,
         validate: [validator.isURL, "Please provide a valid url"],
     },
