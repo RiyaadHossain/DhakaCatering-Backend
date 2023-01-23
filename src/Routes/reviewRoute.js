@@ -7,10 +7,10 @@ const reviewController = require("../Controllers/reviewController");
 router.route("/")
     .get(reviewController.getReviews)
     .post(verifyToken, authorization("User"), reviewController.postReview)
-    .delete(verifyToken, authorization("Super Admin", "Admin"), reviewController.deleteReviews)
 
 router.route("/:id")
     .get(reviewController.getReview)
     .patch(verifyToken, authorization("Super Admin", "User", "Admin"), reviewController.updateReview)
+    .delete(verifyToken, authorization("Super Admin", "Admin", "User"), reviewController.deleteReviews)
 
 module.exports = router

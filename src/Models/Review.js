@@ -7,10 +7,10 @@ const reviewSchema = mongoose.Schema({
         trim: true,
         required: [true, "You must enter your name"]
     },
-    description: {
+    review: {
         type: String,
         trim: true,
-        required: [true, "You must enter your name"]
+        required: [true, "You must enter Review text"]
     },
     userId: {
         type: ObjectId,

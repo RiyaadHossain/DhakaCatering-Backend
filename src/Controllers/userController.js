@@ -1,4 +1,5 @@
 const { authorization } = require('../Middlewares/authorization');
+const { findById } = require('../Models/User');
 const User = require('../Models/User');
 const { generateToken } = require('../Utils/token');
 
@@ -121,6 +122,34 @@ exports.updateProfile = async (req, res) => {
         res.status(400).json({
             status: "fail",
             error: error.message,
+        });
+    }
+}
+
+// 5. User Persistency________________________________
+exports.userPersistency = async (req, res) => {
+
+    if (req.user.role) {
+
+        try {
+            const user = await User.findById(req.user._id)
+
+            res.status(200).json({
+                status: "success",
+                data: user,
+            });
+        } catch (error) {
+            res.status(400).json({
+                status: "fail",
+                error: "Internal Server Error"
+            });
+        }
+
+
+    } else {
+        res.status(400).json({
+            status: "fail",
+            error: "Unauthorize User"
         });
     }
 }

@@ -114,10 +114,10 @@ exports.deleteReview = async (req, res) => {
 
 // 5. Bulk Delete Reviews__________________________
 exports.deleteReviews = async (req, res) => {
-    const { ids } = req.body
+    const { id } = req.params
 
     try {
-        const data = await Review.deleteMany({ _id: ids })
+        const data = await Review.findByIdAndDelete(id)
 
         if (data.deletedCount) {
             return res.status(400).json({
@@ -128,7 +128,7 @@ exports.deleteReviews = async (req, res) => {
 
         res.status(200).json({
             status: "success",
-            messgae: "Multiple Review deleted successfully!",
+            messgae: "Review deleted successfully!",
         });
     } catch (error) {
         res.status(400).json({

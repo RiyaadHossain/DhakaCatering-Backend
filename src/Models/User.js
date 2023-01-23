@@ -60,6 +60,10 @@ const userSchema = mongoose.Schema({
         type: String,
         validate: [validator.isURL, "Please provide a valid url"],
     },
+    occupation: {
+        type: String,
+        default: 'Customer'
+    },
     status: {
         type: String,
         default: "active",

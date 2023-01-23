@@ -3,7 +3,7 @@ const Package = require("../Models/Package");
 // 1. Get Packages__________________________
 exports.getPackages = async (req, res) => {
     try {
-        const data = await Package.find()
+        const data = await Package.find().populate('allItems.items')
 
         res.status(200).json({
             status: "success",

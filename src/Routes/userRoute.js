@@ -7,5 +7,6 @@ router.post("/signup", userController.signUp)
 router.post("/signin", userController.signIn)
 router.get("/initial", verifyToken, userController.initialSignIn)
 router.post("/update-profile", verifyToken, userController.updateProfile)
+router.get("/userPersistency", verifyToken, userController.userPersistency)
 
 module.exports = router

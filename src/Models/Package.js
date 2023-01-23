@@ -48,12 +48,10 @@ const packageSchema = mongoose.Schema({
         url: String
     },
     reviews: [{
-        userId: {
+        id: {
             type: ObjectId,
-            ref: 'User'
+            ref: 'Review'
         },
-        name: String,
-        review: String,
     }],
     viewCount: {
         type: Number,
