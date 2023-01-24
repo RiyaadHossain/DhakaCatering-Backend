@@ -2,12 +2,11 @@ const WishList = require("../Models/WishList");
 
 // 1. Get WishList____________________
 exports.getWishList = async (req, res) => {
-    const { foodId } = req.params
     const userId = req.user._id
 
     try {
 
-        const wishLists = await WishList.find({ userId, foodId })
+        const wishLists = await WishList.find({ userId })
         res.status(200).json({
             status: "success",
             messgae: "WishLists fetched successfully!",
@@ -68,7 +67,8 @@ exports.removeFromWishList = async (req, res) => {
 
         const wishList = await WishList.deleteOne({ userId, foodId })
 
-        if (wishList.deletedCount) {
+        if (!wishList.acknowledged) {
+            console.log(wishList);
             return res.status(400).json({
                 status: "fail",
                 error: "WishList Couldn't delete",

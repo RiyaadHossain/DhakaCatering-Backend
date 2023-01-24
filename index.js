@@ -25,7 +25,7 @@ app.use("/api/auth", userRoute)
 app.use("/api/item", itemRoute)
 app.use("/api/package", packageRoute)
 app.use("/api/review", reviewRoute)
-app.use("/api/wishList", wishListRoute)
+app.use("/api/wishlist", wishListRoute)
 app.use("/api/order", orderRoute)
 
 // Health Check
