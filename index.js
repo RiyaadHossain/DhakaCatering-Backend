@@ -19,6 +19,7 @@ const packageRoute = require("./src/Routes/packageRoute")
 const reviewRoute = require("./src/Routes/reviewRoute")
 const wishListRoute = require("./src/Routes/wishListRoute")
 const orderRoute = require("./src/Routes/orderRoute")
+const orderRequestRoute = require("./src/Routes/orderRequestRoute")
 
 // Routes
 app.use("/api/auth", userRoute)
@@ -27,6 +28,7 @@ app.use("/api/package", packageRoute)
 app.use("/api/review", reviewRoute)
 app.use("/api/wishlist", wishListRoute)
 app.use("/api/order", orderRoute)
+app.use("/api/order-request", orderRequestRoute)
 
 // Health Check
 app.get('/', (req, res) => {

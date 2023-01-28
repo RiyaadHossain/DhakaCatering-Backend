@@ -2,9 +2,11 @@ const Review = require("../Models/Review");
 
 // 1. Get Reviews__________________________
 exports.getReviews = async (req, res) => {
+    const { foodId } = req.query
 
     try {
-        const reviews = await Review.find()
+        const reviews = await Review.find({ foodId })
+
         res.status(200).json({
             status: "success",
             messgae: "Reviews data fetched successfully!",
@@ -26,7 +28,6 @@ exports.getReview = async (req, res) => {
         const review = await Review.findById(id)
         res.status(200).json({
             status: "success",
-            messgae: "Review data fetched successfully!",
             review,
         });
     } catch (error) {

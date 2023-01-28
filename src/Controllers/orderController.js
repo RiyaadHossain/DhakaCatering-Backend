@@ -2,7 +2,7 @@ const Order = require("../Models/Order");
 
 // 1. Get Orders____________________
 exports.getOrders = async (req, res) => {
-    const { foodId } = req.params
+    const { foodId } = req.body
     const userId = req.user._id
 
     try {
@@ -25,7 +25,7 @@ exports.getOrders = async (req, res) => {
 // 2. Create Order____________________
 exports.addToOrder = async (req, res) => {
     const userId = req.user._id
-    const foodId = req.params.foodId
+    const foodId = req.body.foodId
 
     try {
 
