@@ -11,6 +11,7 @@ router.route("/")
 
 router.route("/:id")
     .all(verifyToken, authorization("Super Admin", "Admin", "User"))
+    .get(orderRequestController.getOrderRequest)
     .patch(orderRequestController.updateOrderRequest)
 
 module.exports = router

@@ -15,19 +15,21 @@ app.use(cors())
 
 const userRoute = require("./src/Routes/userRoute")
 const itemRoute = require("./src/Routes/itemRoute")
-const packageRoute = require("./src/Routes/packageRoute")
-const reviewRoute = require("./src/Routes/reviewRoute")
-const wishListRoute = require("./src/Routes/wishListRoute")
 const orderRoute = require("./src/Routes/orderRoute")
+const reviewRoute = require("./src/Routes/reviewRoute")
+const packageRoute = require("./src/Routes/packageRoute")
+const wishListRoute = require("./src/Routes/wishListRoute")
 const orderRequestRoute = require("./src/Routes/orderRequestRoute")
+const adminDataRoute = require("./src/Routes/adminDataRoute")
 
 // Routes
 app.use("/api/auth", userRoute)
 app.use("/api/item", itemRoute)
-app.use("/api/package", packageRoute)
-app.use("/api/review", reviewRoute)
-app.use("/api/wishlist", wishListRoute)
 app.use("/api/order", orderRoute)
+app.use("/api/review", reviewRoute)
+app.use("/api/package", packageRoute)
+app.use("/api/wishlist", wishListRoute)
+app.use("/api/admin-data", adminDataRoute)
 app.use("/api/order-request", orderRequestRoute)
 
 // Health Check

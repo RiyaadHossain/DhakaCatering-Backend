@@ -20,9 +20,29 @@ exports.getOrderRequests = async (req, res) => {
     }
 }
 
-// 2. Create Order Request____________________
+// 2. Get Order Request____________________
+exports.getOrderRequest = async (req, res) => {
+    const { id } = req.params
+
+    try {
+
+        const orderRequest = await OrderRequest.findById(id).populate("allItems.id createdBy.id")
+        res.status(200).json({
+            status: "success",
+            orderRequest,
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: error.message,
+        });
+    }
+}
+
+// 3. Create Order Request____________________
 exports.createOrderRequest = async (req, res) => {
-    let orderRequestData  = req.body
+    let orderRequestData = req.body
     orderRequestData = { ...orderRequestData, createdBy: { role: req.user.role, id: req.user._id }, status: 'Pending' }
 
     try {
@@ -42,7 +62,7 @@ exports.createOrderRequest = async (req, res) => {
     }
 }
 
-// 3. Update Order Request____________________
+// 4. Update Order Request____________________
 exports.updateOrderRequest = async (req, res) => {
     const { id } = req.params
     const { status } = req.body
@@ -50,7 +70,7 @@ exports.updateOrderRequest = async (req, res) => {
 
     try {
 
-        const orderRequest = await OrderRequest.findByIdAndUpdate(id, status, options)
+        const orderRequest = await OrderRequest.findByIdAndUpdate(id, {status}, options)
         res.status(200).json({
             status: "success",
             messgae: "Order Request Updated successfully!",
@@ -63,4 +83,4 @@ exports.updateOrderRequest = async (req, res) => {
             error: error.message,
         });
     }
-}
+} 

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types
 
 const orderRequestSchema = mongoose.Schema({
+    name: String,
+    category: String,
     createdBy: {
         id: { type: ObjectId, ref: 'User' },
         role: String
