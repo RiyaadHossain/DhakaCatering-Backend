@@ -9,7 +9,6 @@ exports.getReviews = async (req, res) => {
 
         res.status(200).json({
             status: "success",
-            messgae: "Reviews data fetched successfully!",
             reviews,
         });
     } catch (error) {
