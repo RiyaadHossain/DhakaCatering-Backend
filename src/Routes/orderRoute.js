@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router()
-const orderRequestController = require("../Controllers/orderRequestController");
+const orderController = require("../Controllers/orderController");
 const { authorization } = require('../Middlewares/authorization');
 const { verifyToken } = require('../Middlewares/verifyToken');
 
 router.route("/")
     .all(verifyToken, authorization("Super Admin", "Admin", "User"))
-    .get(orderRequestController.getOrderRequests)
-    .post(orderRequestController.createOrderRequest)
+    .get(orderController.getOrders)
+    .post(orderController.createOrder)
 
 module.exports = router

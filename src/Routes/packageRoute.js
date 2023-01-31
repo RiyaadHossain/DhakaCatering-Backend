@@ -7,6 +7,7 @@ const { authorization } = require('../Middlewares/authorization');
 router.route("/")
     .get(packageController.getPackages)
     .post(verifyToken, authorization("Super Admin", "Admin"), packageController.createPackage)
+    .patch(verifyToken, authorization("Super Admin", "Admin", "User"), packageController.updateViewSell)
     .delete(verifyToken, authorization("Super Admin", "Admin"), packageController.bulkDeletePackage)
 
 router.route("/:id")

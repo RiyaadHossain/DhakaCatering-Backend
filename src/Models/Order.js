@@ -4,11 +4,13 @@ const { ObjectId } = mongoose.Types
 const orderSchema = mongoose.Schema({
     userId: {
         type: ObjectId,
+        ref: "User",
         required: [true, "User id is required"]
     },
     foodId: {
         type: ObjectId,
-        required: [true, "User id is required"]
+        ref: "Package",
+        required: [true, "Food id is required"]
     }
 }, { timestamps: true })
 

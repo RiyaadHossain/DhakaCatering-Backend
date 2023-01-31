@@ -69,6 +69,17 @@ const userSchema = mongoose.Schema({
         default: "active",
         enum: ["active", "inactive", "blocked"],
     },
+    totalPurchase: {
+        type: Number,
+        default: 0
+    },
+    viewCount: {
+        type: Number, default: 0
+    },
+    orderCount: {
+        type: Number,
+        default: 0
+    }
 }, { timestamps: true })
 
 // Hash Password______________

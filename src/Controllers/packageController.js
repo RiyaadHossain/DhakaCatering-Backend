@@ -1,4 +1,5 @@
 const Package = require("../Models/Package");
+const User = require("../Models/User");
 
 // 1. Get Packages__________________________
 exports.getPackages = async (req, res) => {
@@ -127,6 +128,40 @@ exports.bulkDeletePackage = async (req, res) => {
             messgae: "Multiple Package item deleted successfully!",
         });
     } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: error.message,
+        });
+    }
+}
+
+
+// 7. Update View & Sells__________________________
+exports.updateViewSell = async (req, res) => {
+    let updatedData
+    let { id, sellCount, viewCount, userId } = req.body
+    const options = { runValidators: true, new: true }
+
+    if (sellCount) {
+        updatedData = { $inc: { sellCount } }
+    }
+
+    if (viewCount) {
+        updatedData = { $inc: { viewCount } }
+    }
+
+    try {
+        const data = await Package.findByIdAndUpdate(id, updatedData, options)
+
+        if (viewCount)
+            await User.findByIdAndUpdate({ _id: userId }, updatedData)
+
+        res.status(200).json({
+            status: "success",
+            data
+        });
+    } catch (error) {
+        console.log(error);
         res.status(400).json({
             status: "fail",
             error: error.message,

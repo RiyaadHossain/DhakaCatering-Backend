@@ -1,16 +1,25 @@
 const Order = require("../Models/Order");
+const Package = require("../Models/Package");
+const User = require("../Models/User");
 
 // 1. Get Orders____________________
 exports.getOrders = async (req, res) => {
-    const { foodId } = req.body
-    const userId = req.user._id
+    const { foodId, userId } = req.query
+
+    let query = {}
+
+    if (foodId) {
+        query.foodId = foodId
+    }
+    if (userId) {
+        query.userId = userId
+    }
 
     try {
 
-        const orders = await Order.find({ userId, foodId })
+        const orders = await Order.find(query).populate("userId foodId")
         res.status(200).json({
             status: "success",
-            messgae: "Orders fetched successfully!",
             orders,
         });
 
@@ -23,11 +32,14 @@ exports.getOrders = async (req, res) => {
 }
 
 // 2. Create Order____________________
-exports.addToOrder = async (req, res) => {
+exports.createOrder = async (req, res) => {
     const userId = req.user._id
-    const foodId = req.body.foodId
+    const { foodId, price } = req.body
 
     try {
+
+        const user = await User.findByIdAndUpdate(userId, { $inc: { totalPurchase: price, orderCount: 1 } })
+        await Package.findByIdAndUpdate(foodId, { $inc: { sellCount: 1 } })
 
         const order = await Order.create({ userId, foodId })
         res.status(200).json({
