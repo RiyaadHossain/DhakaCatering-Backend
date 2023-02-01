@@ -1,3 +1,5 @@
+const Order = require("../Models/Order");
+const Package = require("../Models/Package");
 const OrderRequest = require("../Models/OrderRequest");
 
 // 1. Get Order Requests____________________
@@ -70,7 +72,18 @@ exports.updateOrderRequest = async (req, res) => {
 
     try {
 
-        const orderRequest = await OrderRequest.findByIdAndUpdate(id, {status}, options)
+        const orderRequestData = await OrderRequest.findById(id)
+        const orderRequest = await OrderRequest.findByIdAndUpdate(id, { status }, options)
+        const { name, allItems, totalPrice, createdBy } = orderRequestData
+
+        if (status === 'Approved') {
+            const url = "https://cutt.ly/S9ZxBFI"
+            const description = "This is a custom Package designed by a Regular customer"
+            const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1 }
+            const package = await Package.create(packageData)
+            await Order.create({ userId: createdBy.id, foodId: package._id })
+        }
+
         res.status(200).json({
             status: "success",
             messgae: "Order Request Updated successfully!",

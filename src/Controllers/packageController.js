@@ -4,7 +4,7 @@ const User = require("../Models/User");
 // 1. Get Packages__________________________
 exports.getPackages = async (req, res) => {
     try {
-        const data = await Package.find().populate('allItems.items')
+        const data = await Package.find().populate('allItems.id')
 
         res.status(200).json({
             status: "success",
@@ -23,7 +23,7 @@ exports.getPackage = async (req, res) => {
     const id = req.params.id
 
     try {
-        const data = await Package.findById(id).populate('allItems.items')
+        const data = await Package.findById(id).populate('allItems.id')
 
         res.status(200).json({
             status: "success",
