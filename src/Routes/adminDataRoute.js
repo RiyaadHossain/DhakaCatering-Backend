@@ -8,7 +8,9 @@ router.route("/users")
     .all(verifyToken, authorization("Super Admin", "Admin",))
     .get(adminDataController.getUsers)
 
-router.get("/leaderboard", verifyToken, authorization("Super Admin", "Admin"), adminDataController.leaderboardData)
+    router.get("/sidebar-data", verifyToken, authorization("Super Admin", "Admin"), adminDataController.statData)
+    router.get("/stat-data", verifyToken, authorization("Super Admin", "Admin"), adminDataController.leaderboardData)
+    router.get("/leaderboard", verifyToken, authorization("Super Admin", "Admin"), adminDataController.leaderboardData)
 
 router.route("/user/:id")
     .all(verifyToken, authorization("Super Admin", "Admin",))
