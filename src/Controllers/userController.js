@@ -1,13 +1,28 @@
-const { authorization } = require('../Middlewares/authorization');
-const { findById } = require('../Models/User');
 const User = require('../Models/User');
 const { generateToken } = require('../Utils/token');
+const { authorization } = require('../Middlewares/authorization');
+const { sendMail } = require('../Utils/email');
+const bcrypt = require('bcrypt');
+const moment = require("moment/moment")
 
 // 1. Sign Up________________________________
 exports.signUp = async (req, res) => {
     try {
 
         const user = await User.create(req.body)
+        const conformationToken = user.conformationToken()
+
+        await user.save({ validateBeforeSave: false })
+
+        const URL = req.protocol + '://' + req.get('host') + req.originalUrl;
+
+        const mailInfo = {
+            email: user.email,
+            subject: "Confirm Your Account",
+            html: `<p>Thanks for creating your Account. Please activate your account. <a href="${URL}/confirmation/${conformationToken}">Click Here</a></p>`,
+        }
+
+        sendMail(mailInfo)
 
         res.status(200).json({
             status: "success",
@@ -50,7 +65,13 @@ exports.signIn = async (req, res) => {
             });
         }
 
-        const comparePass = user.compareHash(password, user.password)
+        const comparePass = password === user.password
+
+        // const comparePass = user.compareHash(password, user.password, function (err, isValidPass) {
+        //     if (err) console.log(err)
+        //     return isValidPass
+        // })
+
         if (!comparePass) {
             return res.status(401).json({
                 status: "fail",
@@ -66,6 +87,7 @@ exports.signIn = async (req, res) => {
             data: { token, user },
         });
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             status: "fail",
             error: error.message,
@@ -150,6 +172,40 @@ exports.userPersistency = async (req, res) => {
         res.status(400).json({
             status: "fail",
             error: "Unauthorize User"
+        });
+    }
+}
+
+// 6. Account Confirmation________________________________
+exports.confirmAccount = async (req, res) => {
+    const confirmationToken = req.params.token
+
+    try {
+
+        const user = await User.findOne({ confirmationToken })
+
+        if (!user) {
+            return res.render('invalid')
+        }
+
+        const expired = moment() > moment(user.confirmationTokenExpires)
+
+        if (expired) {
+            return res.render('expired')
+        }
+
+        user.status = 'active'
+        user.confirmationToken = undefined
+        user.confirmationTokenExpires = undefined
+
+        await user.save({ validateBeforeSave: false })
+
+        res.render('index')
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: "Something went wrong",
         });
     }
 }

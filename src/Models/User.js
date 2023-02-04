@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const moment = require("moment/moment");
+const { CLIENT_RENEG_LIMIT } = require("tls");
 
 const userSchema = mongoose.Schema({
     email: {
@@ -66,7 +68,7 @@ const userSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        default: "active",
+        default: "inactive",
         enum: ["active", "inactive", "blocked"],
     },
     totalPurchase: {
@@ -79,21 +81,35 @@ const userSchema = mongoose.Schema({
     orderCount: {
         type: Number,
         default: 0
-    }
+    },
+    confirmationToken: String,
+    confirmationTokenExpires: Date
 }, { timestamps: true })
 
-// Hash Password______________
-userSchema.pre('save', function async(next) {
-    const hashedPass = bcrypt.hashSync(this.password, 10)
-    this.password = hashedPass
-    this.confirmPassword = undefined
-    next()
-})
+// // Hash Password______________
+// userSchema.pre('save', function async(next) {
+//     const hashedPass = bcrypt.hashSync(this.password, 10)
+//     this.password = hashedPass
+//     this.confirmPassword = undefined
+//     next()
+// })
 
-// Compare hash Password_____________
-userSchema.methods.compareHash = (pass, hashedPass) => {
-    const isValidPassword = bcrypt.compareSync(pass, hashedPass)
-    return isValidPassword
+// // Compare hash Password_____________
+// userSchema.methods.compareHash = (pass, hashedPass, callback) => {
+//     bcrypt.compare(pass, hashedPass, function (err, isValidPass) {
+//         if (err) callback(err)
+//         else callback(null, isValidPass)
+//     })
+// }
+
+// Generate Conrirmation Token_____________
+userSchema.methods.conformationToken = function () {
+    const token = crypto.randomBytes(32).toString('hex')
+    this.confirmationToken = token
+
+    const expireDate = moment().add(1, 'day')
+    this.confirmationTokenExpires = expireDate
+    return token
 }
 
 const User = mongoose.model("User", userSchema)

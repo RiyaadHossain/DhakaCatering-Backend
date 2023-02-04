@@ -9,6 +9,9 @@ dotenv.config()
 // DB Connection
 require("./src/Config/DBConnect")
 
+// EJS Engine
+app.set("view engine", "ejs")
+
 // Middlewares
 app.use(express.json())
 app.use(cors())
@@ -34,7 +37,7 @@ app.use("/api/order-request", orderRequestRoute)
 
 // Health Check
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.send("Welcome to Dhaka Catering Server")
 });
 
 // Listen to Server
