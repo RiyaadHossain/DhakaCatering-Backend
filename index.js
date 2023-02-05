@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const express = require('express');
 const colors = require('colors');
 const dotenv = require('dotenv');
@@ -8,11 +7,7 @@ const PORT = process.env.PORT || 5000
 dotenv.config()
 
 // DB Connection
-mongoose.set('strictQuery', false)
-
-mongoose.connect(process.env.MONGODB_URL)
-    .then(() => console.log("Database Connected Successfully".yellow.bold))
-    .catch(err => console.log(err))
+require("./src/Config/DBConnect")
 
 // EJS Engine
 app.set("view engine", "ejs")
