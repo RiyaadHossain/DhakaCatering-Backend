@@ -87,7 +87,7 @@ const userSchema = mongoose.Schema({
 }, { timestamps: true })
 
 // // Hash Password______________
-// userSchema.pre('save', function async(next) {
+// userSchema.pre('save', function (next) {
 //     const hashedPass = bcrypt.hashSync(this.password, 10)
 //     this.password = hashedPass
 //     this.confirmPassword = undefined
@@ -95,11 +95,9 @@ const userSchema = mongoose.Schema({
 // })
 
 // // Compare hash Password_____________
-// userSchema.methods.compareHash = (pass, hashedPass, callback) => {
-//     bcrypt.compare(pass, hashedPass, function (err, isValidPass) {
-//         if (err) callback(err)
-//         else callback(null, isValidPass)
-//     })
+// userSchema.methods.compareHash = (pass, hashedPass) => {
+//     const isValidPass = bcrypt.compareSync(pass, hashedPass)
+//     return isValidPass
 // }
 
 // Generate Conrirmation Token_____________
@@ -114,3 +112,9 @@ userSchema.methods.conformationToken = function () {
 
 const User = mongoose.model("User", userSchema)
 module.exports = User
+
+
+/* bcrypt.compare(pass, hashedPass, function (err, isValidPass) {
+        if (err) callback(err)
+        else callback(null, isValidPass)
+    }) */

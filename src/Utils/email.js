@@ -15,7 +15,7 @@ exports.sendMail = (mailInfo) => {
     //Step 2: Setting up message options
     const messageOptions = {
         subject: mailInfo.subject,
-        text: mailInfo.html,
+        html: mailInfo.html,
         to: mailInfo.email,
         from: "Dhaka Catering"
     };

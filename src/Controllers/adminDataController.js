@@ -109,7 +109,7 @@ exports.statData = async (req, res) => {
             }
         ])
 
-        saleStat = saleStat[0].totalSales
+        saleStat = saleStat[0]?.totalSales ? saleStat[0]?.totalSales : 0
 
         res.status(200).json({
             status: "success",
@@ -131,7 +131,7 @@ exports.sidebarData = async (req, res) => {
 
     try {
 
-        const users = await User.find({role: "User"}).countDocuments()
+        const users = await User.find({ role: "User" }).countDocuments()
         const items = await Item.find().countDocuments()
         const orders = await Order.find().countDocuments()
         const packages = await Package.find().countDocuments()

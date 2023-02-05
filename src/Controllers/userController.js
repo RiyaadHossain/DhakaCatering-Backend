@@ -65,12 +65,9 @@ exports.signIn = async (req, res) => {
             });
         }
 
-        const comparePass = password === user.password
+        const comparePass = password === user.password;
 
-        // const comparePass = user.compareHash(password, user.password, function (err, isValidPass) {
-        //     if (err) console.log(err)
-        //     return isValidPass
-        // })
+        // const comparePass = user.compareHash(password, user.password)
 
         if (!comparePass) {
             return res.status(401).json({

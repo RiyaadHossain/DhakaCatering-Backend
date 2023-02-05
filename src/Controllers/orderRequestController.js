@@ -1,6 +1,8 @@
 const Order = require("../Models/Order");
 const Package = require("../Models/Package");
 const OrderRequest = require("../Models/OrderRequest");
+const { sendMail } = require("../Utils/email");
+const User = require("../Models/User");
 
 // 1. Get Order Requests____________________
 exports.getOrderRequests = async (req, res) => {
@@ -50,6 +52,14 @@ exports.createOrderRequest = async (req, res) => {
     try {
 
         const orderRequest = await OrderRequest.create(orderRequestData)
+        const mailInfo = {
+            email: "riyadhossain017037@gmail.com",
+            subject: "New Order Request",
+            html: `<p>A new user has sent an order request. Please check on Admin Dashboard. <a href="${URL}/confirmation/${conformationToken}">Click Here</a></p>`,
+        }
+
+        sendMail(mailInfo)
+
         res.status(200).json({
             status: "success",
             messgae: "Order Request created successfully!",
@@ -73,6 +83,7 @@ exports.updateOrderRequest = async (req, res) => {
     try {
 
         const orderRequestData = await OrderRequest.findById(id)
+        const user = await User.findById(orderRequestData.createdBy.id)
         const orderRequest = await OrderRequest.findByIdAndUpdate(id, { status }, options)
         const { name, allItems, totalPrice, createdBy } = orderRequestData
 
@@ -82,6 +93,14 @@ exports.updateOrderRequest = async (req, res) => {
             const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1 }
             const package = await Package.create(packageData)
             await Order.create({ userId: createdBy.id, foodId: package._id })
+
+            const mailInfo = {
+                email: user.email,
+                subject: "Your Order Request is approved",
+                html: `<p>Your order request has been approved. Please contact with this number to Confirm your order. </br> GP: 01703790978 </p>`,
+            }
+
+            sendMail(mailInfo)
         }
 
         res.status(200).json({
