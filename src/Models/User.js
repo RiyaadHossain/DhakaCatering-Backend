@@ -21,7 +21,6 @@ const userSchema = mongoose.Schema({
     },
     confirmPassword: {
         type: String,
-        required: [true, "Confirm password is required"],
         validate: {
             validator: function (value) {
                 return this.password === value

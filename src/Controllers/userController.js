@@ -7,7 +7,25 @@ const moment = require("moment/moment")
 
 // 1. Sign Up________________________________
 exports.signUp = async (req, res) => {
+    const { email, contactNumber } = req.body
     try {
+
+        const emailExist = await User.findOne({ email })
+        const numberExist = await User.findOne({ contactNumber })
+
+        if (emailExist) {
+            return res.status(400).json({
+                status: "fail",
+                error: "User Email already exist",
+            });
+        }
+
+        if (numberExist) {
+            return res.status(400).json({
+                status: "fail",
+                error: "Number already exist",
+            });
+        }
 
         const user = await User.create(req.body)
         const conformationToken = user.conformationToken()
@@ -23,11 +41,12 @@ exports.signUp = async (req, res) => {
         }
 
         sendMail(mailInfo)
+        const token = generateToken(user)
 
         res.status(200).json({
             status: "success",
             messgae: "User Sign Up successfully!",
-            data: user,
+            data: { token, user },
         });
     } catch (error) {
         res.status(400).json({
