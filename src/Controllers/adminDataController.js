@@ -3,6 +3,7 @@ const Order = require("../Models/Order");
 const Package = require("../Models/Package");
 const User = require("../Models/User");
 const OrderRequest = require("../Models/OrderRequest");
+const Gallery = require("../Models/Gallery");
 
 // 1. Get Users____________________
 exports.getUsers = async (req, res) => {
@@ -157,13 +158,14 @@ exports.sidebarData = async (req, res) => {
         const items = await Item.find().countDocuments()
         const orders = await Order.find().countDocuments()
         const packages = await Package.find().countDocuments()
+        const gallery = await Gallery.find().countDocuments()
         const orderRequests = await OrderRequest.find().countDocuments()
         const admins = await User.find({ role: ["Admin", "Super Admin"] }).countDocuments()
         // const offers = await Offers.find().countDocuments()
 
         res.status(200).json({
             status: "success",
-            data: { users, admins, packages, items, orders, orderRequests },
+            data: { users, admins, packages, gallery, items, orders, orderRequests },
         });
 
     } catch (error) {
