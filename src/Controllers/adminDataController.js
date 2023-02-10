@@ -43,7 +43,29 @@ exports.getUser = async (req, res) => {
     }
 }
 
-// 2. Leaderboard Data____________________
+// 3. Update User____________________
+exports.updateUser = async (req, res) => {
+    const { id } = req.params
+    const data = req.body
+    console.log(data)
+    try {
+
+        const user = await User.findByIdAndUpdate(id, data, { new: true })
+
+        res.status(200).json({
+            status: "success",
+            message: "User data updated successfully"
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            status: "fail",
+            error: error.message,
+        });
+    }
+}
+
+// 4. Leaderboard Data____________________
 exports.leaderboardData = async (req, res) => {
 
 
@@ -65,7 +87,7 @@ exports.leaderboardData = async (req, res) => {
     }
 }
 
-// 2. Stat Data____________________
+// 5. Stat Data____________________
 exports.statData = async (req, res) => {
 
 
@@ -125,7 +147,7 @@ exports.statData = async (req, res) => {
     }
 }
 
-// 3. Sidebar Data____________________
+// 6. Sidebar Data____________________
 exports.sidebarData = async (req, res) => {
 
 

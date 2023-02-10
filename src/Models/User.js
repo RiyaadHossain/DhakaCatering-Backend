@@ -70,6 +70,14 @@ const userSchema = mongoose.Schema({
         default: "inactive",
         enum: ["active", "inactive", "blocked"],
     },
+    star: {
+        type: Boolean,
+        default: false
+    },
+    note: {
+        type: String,
+        trim: true
+    },
     totalPurchase: {
         type: Number,
         default: 0

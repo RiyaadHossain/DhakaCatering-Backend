@@ -4,6 +4,7 @@ const { ObjectId } = mongoose.Types
 const orderRequestSchema = mongoose.Schema({
     name: String,
     category: String,
+    date: Date,
     createdBy: {
         id: { type: ObjectId, ref: 'User' },
         role: String

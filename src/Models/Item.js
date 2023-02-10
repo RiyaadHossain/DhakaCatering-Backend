@@ -14,6 +14,7 @@ const itemSchema = mongoose.Schema({
         min: [0, "Price can't be negative"],
         required: [true, "Item Price is required"]
     },
+    discountedPrice: { type: Number, trim: true },
     description: {
         type: String,
         trim: true,

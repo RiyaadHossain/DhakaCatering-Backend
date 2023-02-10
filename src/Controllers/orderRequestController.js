@@ -55,7 +55,7 @@ exports.createOrderRequest = async (req, res) => {
         const mailInfo = {
             email: "riyadhossain017037@gmail.com",
             subject: "New Order Request",
-            html: `<p>A new user has sent an order request. Please check on Admin Dashboard. <a href="${URL}/confirmation/${conformationToken}">Click Here</a></p>`,
+            html: `<p>A new user has sent an order request. Please check on Admin Dashboard.`,
         }
 
         sendMail(mailInfo)
