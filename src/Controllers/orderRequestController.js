@@ -3,6 +3,7 @@ const Package = require("../Models/Package");
 const OrderRequest = require("../Models/OrderRequest");
 const { sendMail } = require("../Utils/email");
 const User = require("../Models/User");
+const { orderReqContent, orderReqAcceptContent } = require("../Utils/html");
 
 // 1. Get Order Requests____________________
 exports.getOrderRequests = async (req, res) => {
@@ -46,16 +47,23 @@ exports.getOrderRequest = async (req, res) => {
 
 // 3. Create Order Request____________________
 exports.createOrderRequest = async (req, res) => {
+    const userId = req.user._id
     let orderRequestData = req.body
-    orderRequestData = { ...orderRequestData, createdBy: { role: req.user.role, id: req.user._id }, status: 'Pending' }
+    orderRequestData = { ...orderRequestData, createdBy: { role: req.user.role, id: userId }, status: 'Pending' }
 
     try {
 
+        const user = await User.findById(userId)
         const orderRequest = await OrderRequest.create(orderRequestData)
+
+        const date = moment(orderRequest.date).format("DD MMM YYYY")
+
+        const html = orderReqContent({ user, orderRequest, date })
+
         const mailInfo = {
             email: "riyadhossain017037@gmail.com",
             subject: "New Order Request",
-            html: `<p>A new user has sent an order request. Please check on Admin Dashboard.`,
+            html,
         }
 
         sendMail(mailInfo)
@@ -82,6 +90,7 @@ exports.updateOrderRequest = async (req, res) => {
 
     try {
 
+        let html
         const orderRequestData = await OrderRequest.findById(id)
         const user = await User.findById(orderRequestData.createdBy.id)
         const orderRequest = await OrderRequest.findByIdAndUpdate(id, { status }, options)
@@ -94,14 +103,16 @@ exports.updateOrderRequest = async (req, res) => {
             const package = await Package.create(packageData)
             await Order.create({ userId: createdBy.id, foodId: package._id })
 
-            const mailInfo = {
-                email: user.email,
-                subject: "Your Order Request is approved",
-                html: `<p>Your order request has been approved. Please contact with this number to Confirm your order. </br> GP: 01703790978 </p>`,
-            }
-
-            sendMail(mailInfo)
+            html = orderReqAcceptContent({status, orderRequestData})
         }
+
+        const mailInfo = {
+            email: user.email,
+            subject: `Your Order Request is ${status}`,
+            html,
+        }
+
+        sendMail(mailInfo)
 
         res.status(200).json({
             status: "success",
