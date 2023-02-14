@@ -97,40 +97,7 @@ exports.statData = async (req, res) => {
         const userStat = await User.find().countDocuments()
         const packageStat = await Package.find().countDocuments()
         const itemStat = await Item.find().countDocuments()
-        let saleStat = await Order.aggregate([
-            {
-                $lookup: {
-                    from: "packages",
-                    localField: "foodId",
-                    foreignField: "_id",
-                    as: "food"
-                }
-            },
-            {
-                $addFields: {
-                    packageItem: {
-                        $arrayElemAt: ['$food', 0],
-                    }
-                }
-            },
-            {
-                $unset: ["_id", "foodId", "userId", "createdAt", "updatedAt", "__v", "food"]
-            },
-            {
-                $project: {
-                    _id: "$packageItem._id",
-                    totalAmount: {
-                        $multiply: ["$packageItem.price", "$packageItem.sellCount"]
-                    }
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    totalSales: { $sum: "$totalAmount" }
-                }
-            }
-        ])
+        let saleStat = await Order.aggregate([{ $group: { _id: null, totalSales: { $sum: "$totalPrice" } } }])
 
         saleStat = saleStat[0]?.totalSales ? saleStat[0]?.totalSales : 0
 
@@ -175,3 +142,38 @@ exports.sidebarData = async (req, res) => {
         });
     }
 }
+
+/* await Order.aggregate([
+            {
+                $lookup: {
+                    from: "packages",
+                    localField: "foodId",
+                    foreignField: "_id",
+                    as: "food"
+                }
+            },
+            {
+                $addFields: {
+                    packageItem: {
+                        $arrayElemAt: ['$food', 0],
+                    }
+                }
+            },
+            {
+                $unset: ["_id", "foodId", "userId", "createdAt", "updatedAt", "__v", "food"]
+            },
+            {
+                $project: {
+                    _id: "$packageItem._id",
+                    totalAmount: {
+                        $multiply: ["$packageItem.price", "$packageItem.sellCount"]
+                    }
+                }
+            },
+            {
+                $group: {
+                    _id: null,
+                    totalSales: { $sum: "$totalAmount" }
+                }
+            }
+        ]) */
