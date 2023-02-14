@@ -15,6 +15,7 @@ const packageSchema = mongoose.Schema({
         min: [0, "Price can't be negative"],
         required: [true, "Package Price is required"]
     },
+    person: Number,
     description: {
         type: String,
         trim: true,

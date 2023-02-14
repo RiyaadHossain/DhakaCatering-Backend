@@ -42,9 +42,6 @@ app.get('/', (req, res) => {
     res.send("Welcome to Dhaka Catering Server")
 });
 
-// To keep active the Server
-require("./src/Utils/apiCall")
-
 // Listen to Server
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`.blue.bold);

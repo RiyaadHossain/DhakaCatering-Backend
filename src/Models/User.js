@@ -60,6 +60,7 @@ const userSchema = mongoose.Schema({
     imageUrl: {
         type: String,
         validate: [validator.isURL, "Please provide a valid url"],
+        default: 'https://rb.gy/m6wmnj'
     },
     occupation: {
         type: String,

@@ -9,6 +9,7 @@ const orderRequestSchema = mongoose.Schema({
         id: { type: ObjectId, ref: 'User' },
         role: String
     },
+    people: Number,
     allItems: [{ id: { type: ObjectId, ref: 'Item' }, qty: { type: Number, default: 1 }, totalPrice: Number }],
     totalPrice: Number,
     status: {
