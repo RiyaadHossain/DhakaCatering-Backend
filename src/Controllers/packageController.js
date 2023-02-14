@@ -153,7 +153,7 @@ exports.updateViewSell = async (req, res) => {
     try {
         const data = await Package.findByIdAndUpdate(id, updatedData, options)
 
-        if (viewCount)
+        if (viewCount && userId)
             await User.findByIdAndUpdate({ _id: userId }, updatedData)
 
         res.status(200).json({
