@@ -11,7 +11,8 @@ const orderSchema = mongoose.Schema({
         type: ObjectId,
         ref: "Package",
         required: [true, "Food id is required"]
-    }
+    },
+    totalPrice: Number
 }, { timestamps: true })
 
 const Order = mongoose.model("Order", orderSchema)
