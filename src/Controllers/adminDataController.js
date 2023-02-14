@@ -71,8 +71,7 @@ exports.leaderboardData = async (req, res) => {
 
 
     try {
-
-        const users = await User.find().sort("-totalPurchase").limit(5)
+        const users = await User.find({ role: "User" }).sort("-totalPurchase").limit(5)
         const packages = await Package.find().sort("-sellCount").limit(5)
 
         res.status(200).json({
@@ -118,9 +117,7 @@ exports.statData = async (req, res) => {
 // 6. Sidebar Data____________________
 exports.sidebarData = async (req, res) => {
 
-
     try {
-
         const users = await User.find({ role: "User" }).countDocuments()
         const items = await Item.find().countDocuments()
         const orders = await Order.find().countDocuments()
@@ -142,38 +139,3 @@ exports.sidebarData = async (req, res) => {
         });
     }
 }
-
-/* await Order.aggregate([
-            {
-                $lookup: {
-                    from: "packages",
-                    localField: "foodId",
-                    foreignField: "_id",
-                    as: "food"
-                }
-            },
-            {
-                $addFields: {
-                    packageItem: {
-                        $arrayElemAt: ['$food', 0],
-                    }
-                }
-            },
-            {
-                $unset: ["_id", "foodId", "userId", "createdAt", "updatedAt", "__v", "food"]
-            },
-            {
-                $project: {
-                    _id: "$packageItem._id",
-                    totalAmount: {
-                        $multiply: ["$packageItem.price", "$packageItem.sellCount"]
-                    }
-                }
-            },
-            {
-                $group: {
-                    _id: null,
-                    totalSales: { $sum: "$totalAmount" }
-                }
-            }
-        ]) */
