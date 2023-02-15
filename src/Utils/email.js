@@ -5,7 +5,10 @@ exports.sendMail = (mailInfo) => {
 
     //Step 1: Creating the transporter
     const transporter = nodemailer.createTransport({
+        host: "smtp.email",
         service: "gmail",
+        // port: 587,
+        // secure: false, // true for 465, false for other ports
         auth: {
             user: process.env.EMAIL_NAME,
             pass: process.env.EMAIL_PASS
