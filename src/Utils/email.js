@@ -5,10 +5,10 @@ exports.sendMail = (mailInfo) => {
 
     //Step 1: Creating the transporter
     const transporter = nodemailer.createTransport({
-        host: "smtp.email",
+        host: "smtp.ethereal.email",
         service: "gmail",
-        // port: 587,
-        // secure: false, // true for 465, false for other ports
+        port: 587,
+        secure: false, // true for 465, false for other ports
         auth: {
             user: process.env.EMAIL_NAME,
             pass: process.env.EMAIL_PASS
@@ -24,7 +24,5 @@ exports.sendMail = (mailInfo) => {
     };
 
     //Step 3: Sending email
-    transporter.sendMail(messageOptions)
-        .then(info => console.log({info}))
-        .catch(error => console.log({error}));;
+    transporter.sendMail(messageOptions);
 }
