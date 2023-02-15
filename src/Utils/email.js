@@ -8,7 +8,7 @@ exports.sendMail = (mailInfo) => {
         host: "smtp.email",
         service: "gmail",
         port: 587,
-        // secure: false, // true for 465, false for other ports
+        secure: false, // true for 465, false for other ports
         auth: {
             user: process.env.EMAIL_NAME,
             pass: process.env.EMAIL_PASS
