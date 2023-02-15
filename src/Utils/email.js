@@ -14,14 +14,14 @@ exports.sendMail = (mailInfo) => {
 
     //Step 2: Setting up message options
     const messageOptions = {
+        from: '"Dhaka Catering 🍔" <riyadhossain017037@gmail.com>',
         subject: mailInfo.subject,
         html: mailInfo.html,
         to: mailInfo.email,
-        from: "Dhaka Catering"
     };
 
     //Step 3: Sending email
     transporter.sendMail(messageOptions)
-        .then(info => console.log(info))
-        .catch(error => console.log(error));;
+        .then(info => console.log({info}))
+        .catch(error => console.log({error}));;
 }
