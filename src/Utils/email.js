@@ -21,5 +21,7 @@ exports.sendMail = (mailInfo) => {
     };
 
     //Step 3: Sending email
-    transporter.sendMail(messageOptions);
+    transporter.sendMail(messageOptions)
+        .then(info => console.log(info))
+        .catch(error => console.log(error));;
 }
