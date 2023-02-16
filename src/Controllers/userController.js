@@ -32,7 +32,7 @@ exports.signUp = async (req, res) => {
 
         await user.save({ validateBeforeSave: false })
 
-        const URL = req.protocol + '://' + req.get('host');
+        const URL = req.protocol + '://' + req.get('host') + req.originalUrl;
 
         const mailInfo = {
             email: user.email,
