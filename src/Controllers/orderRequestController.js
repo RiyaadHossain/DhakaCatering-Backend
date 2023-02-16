@@ -95,14 +95,14 @@ exports.updateOrderRequest = async (req, res) => {
         const orderRequestData = await OrderRequest.findById(id)
         const user = await User.findById(orderRequestData.createdBy.id)
         const orderRequest = await OrderRequest.findByIdAndUpdate(id, { status }, options)
-        const { name, allItems, totalPrice, createdBy } = orderRequestData
+        const { name, allItems, totalPrice, createdBy, people } = orderRequestData
 
         if (status === 'Approved') {
             const url = "https://cutt.ly/S9ZxBFI"
             const description = "This is a custom Package designed by a Regular customer"
             const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1 }
             const package = await Package.create(packageData)
-            await Order.create({ userId: createdBy.id, foodId: package._id })
+            await Order.create({ userId: createdBy.id, foodId: package._id, person: people, totalPrice })
 
             html = orderReqAcceptContent({status, orderRequestData})
         }

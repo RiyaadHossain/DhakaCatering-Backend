@@ -1,6 +1,6 @@
 exports.orderReqContent = ({ user, orderRequest, date }) => (`<div>
         
-<h2>${user.fullName} has sent an order request on ${date}.</h2> <br/> 
+<h2>${user.fullName} has sent an order request on ${date}.</h2>
 
 <h5>Order Info:</h5>
 Name: ${orderRequest.name}<br/>
