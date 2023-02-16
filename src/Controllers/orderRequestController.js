@@ -100,7 +100,7 @@ exports.updateOrderRequest = async (req, res) => {
         if (status === 'Approved') {
             const url = "https://cutt.ly/S9ZxBFI"
             const description = "This is a custom Package designed by a Regular customer"
-            const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1 }
+            const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1, createdBy: 'User' }
             const package = await Package.create(packageData)
             await Order.create({ userId: createdBy.id, foodId: package._id, person: people, totalPrice })
 

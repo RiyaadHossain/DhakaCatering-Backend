@@ -49,6 +49,10 @@ const packageSchema = mongoose.Schema({
     sellCount: {
         type: Number,
         default: 0
+    },
+    createdBy: {
+        type: String,
+        default: 'Admin'
     }
 }, { timestamps: true })
 
