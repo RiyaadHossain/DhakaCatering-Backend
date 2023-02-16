@@ -222,7 +222,7 @@ exports.confirmAccount = async (req, res) => {
         console.log(error)
         res.status(400).json({
             status: "fail",
-            error: "Something went wrong",
+            error: error.message,
         });
     }
 }
