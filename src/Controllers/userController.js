@@ -13,7 +13,7 @@ exports.signUp = async (req, res) => {
         const emailExist = await User.findOne({ email })
         const numberExist = await User.findOne({ contactNumber })
 
-        if (emailExist) {
+        if (emailExist && emailExist.status === 'active') {
             return res.status(400).json({
                 status: "fail",
                 error: "User Email already exist",
@@ -219,6 +219,7 @@ exports.confirmAccount = async (req, res) => {
         res.render('index')
 
     } catch (error) {
+        console.log(error)
         res.status(400).json({
             status: "fail",
             error: "Something went wrong",
