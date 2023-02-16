@@ -201,13 +201,13 @@ exports.confirmAccount = async (req, res) => {
         const user = await User.findOne({ confirmationToken })
 
         if (!user) {
-            return res.render('invalid')
+            return res.render('Invalid, try againa 😔')
         }
 
         const expired = moment() > moment(user.confirmationTokenExpires)
 
         if (expired) {
-            return res.render('expired')
+            return res.render('Expired Token')
         }
 
         user.status = 'active'
