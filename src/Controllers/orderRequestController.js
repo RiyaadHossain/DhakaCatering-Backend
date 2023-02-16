@@ -3,7 +3,7 @@ const Package = require("../Models/Package");
 const OrderRequest = require("../Models/OrderRequest");
 const { sendMail } = require("../Utils/email");
 const User = require("../Models/User");
-const { orderReqContent, orderReqAcceptContent } = require("../Utils/html");
+const { orderReqContent, orderReqUpdateContent } = require("../Utils/html");
 const moment = require("moment/moment");
 
 // 1. Get Order Requests____________________
@@ -103,10 +103,10 @@ exports.updateOrderRequest = async (req, res) => {
             const packageData = { name, allItems, price: totalPrice, description, category: "Silver", image: { title: "", url }, viewCount: 1, sellCount: 1, createdBy: 'User' }
             const package = await Package.create(packageData)
             await Order.create({ userId: createdBy.id, foodId: package._id, person, totalPrice })
-
-            html = orderReqAcceptContent({ status, orderRequestData })
         }
-
+        
+        html = orderReqUpdateContent({ status, orderRequestData })
+        
         const mailInfo = {
             email: user.email,
             subject: `Your Order Request is ${status}`,

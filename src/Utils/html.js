@@ -20,9 +20,9 @@ Total Order: ${user.orderCount} <br/>
 
 
 
-exports.orderReqAcceptContent = ({ status, orderRequestData }) => (`<div> 
+exports.orderReqUpdateContent = ({ status, orderRequestData }) => (`<div> 
 
-<h3> Congratulations! Your order request has been ${status}</h3>. 
+<h3>${status === 'Approved' ? 'Congratulations!' : 'Sorry!'} Your order request has been ${status}</h3>. 
 
 <h5>Order Info:</h5>
 Name: ${orderRequestData.name}<br/>
@@ -30,7 +30,7 @@ Category: ${orderRequestData.category}<br/>
 Ordered Items: ${orderRequestData.allItems.length}<br/>
 Total Price: ${orderRequestData.totalPrice}<br/>
 
-Please contact with this number to Confirm your order. </br> 
+Please contact with this number to ${status === 'Approved' ? 'Confirm your order' : 'request again'}. </br> 
 GP: 01703790978 </br> 
 BL: 01703790978
 
