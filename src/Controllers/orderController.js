@@ -34,14 +34,14 @@ exports.getOrders = async (req, res) => {
 // 2. Create Order____________________
 exports.createOrder = async (req, res) => {
     const userId = req.user._id
-    const { foodId, totalPrice } = req.body
+    const { foodId, totalPrice, person } = req.body
 
     try {
 
         await User.findByIdAndUpdate(userId, { $inc: { totalPurchase: totalPrice, orderCount: 1 } })
         await Package.findByIdAndUpdate(foodId, { $inc: { sellCount: 1 } })
 
-        const order = await Order.create({ userId, foodId, totalPrice })
+        const order = await Order.create({ userId, foodId, totalPrice, person })
         res.status(200).json({
             status: "success",
             messgae: "Order created successfully!",
