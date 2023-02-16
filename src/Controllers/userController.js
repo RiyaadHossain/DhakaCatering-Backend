@@ -77,15 +77,14 @@ exports.signIn = async (req, res) => {
             });
         }
 
-        if (user.status !== 'active') {
-            return res.status(401).json({
-                status: "fail",
-                error: "User account isn't active. Please contact support.",
-            });
-        }
+        // if (user.status !== 'active') {
+        //     return res.status(401).json({
+        //         status: "fail",
+        //         error: "User account isn't active. Please contact support.",
+        //     });
+        // }
 
         const comparePass = password === user.password;
-
         // const comparePass = user.compareHash(password, user.password)
 
         if (!comparePass) {

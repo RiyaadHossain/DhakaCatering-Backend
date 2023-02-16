@@ -12,6 +12,7 @@ const orderSchema = mongoose.Schema({
         ref: "Package",
         required: [true, "Food id is required"]
     },
+    person: Number,
     totalPrice: Number
 }, { timestamps: true })
 

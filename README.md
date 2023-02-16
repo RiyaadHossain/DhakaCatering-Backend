@@ -18,9 +18,10 @@ Project Video:
 
 - Implemented MVC architecture pattern
 - Fully Responsive on Mobile, Tablet and Desktop screen
-- Developed Email based authentication
+- Developed authentication
 - Build Role Based Authorization
 - Linked social platform like Facebook, WhatsApp, Instagram
+- Email Sending using Nodemailer
 - Image Upload using ImageBB
 - Implemented toast
 
