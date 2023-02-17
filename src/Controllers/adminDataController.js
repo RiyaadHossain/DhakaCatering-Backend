@@ -126,6 +126,7 @@ exports.sidebarData = async (req, res) => {
         const orderRequests = await OrderRequest.find().countDocuments()
         const admins = await User.find({ role: ["Admin", "Super Admin"] }).countDocuments()
         orders = orders.filter(order => order.foodId && order.userId)
+        orders = orders.length
         // const offers = await Offers.find().countDocuments()
 
         res.status(200).json({
