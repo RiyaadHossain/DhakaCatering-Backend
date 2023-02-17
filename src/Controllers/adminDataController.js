@@ -120,7 +120,7 @@ exports.sidebarData = async (req, res) => {
     try {
         const users = await User.find({ role: "User" }).countDocuments()
         const items = await Item.find().countDocuments()
-        let orders = await Order.find().countDocuments()
+        let orders = await Order.find()
         const packages = await Package.find().countDocuments()
         const gallery = await Gallery.find().countDocuments()
         const orderRequests = await OrderRequest.find().countDocuments()
